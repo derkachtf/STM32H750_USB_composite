@@ -598,7 +598,7 @@ uint16_t wr_ptr;
   */
 static uint8_t USBD_AUDIO_MIC_DataIn(USBD_HandleTypeDef *pdev, uint8_t epnum)
 {
-
+  printf("USBD_AUDIO_MIC_DataIn\n");
   USBD_AUDIO_MIC_HandleTypeDef *haudio;
 
   haudio = pdev->pClassData_UAC_MIC;

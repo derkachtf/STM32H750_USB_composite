@@ -48,8 +48,8 @@ extern "C" {
 #define AUDIO_MIC_STR_DESC                                "STM32 MICROPHONE"
 
 /* AUDIO Class Config */
-#define AUDIO_MIC_CHANNELS                                0x01
-#define AUDIO_MIC_SMPL_FREQ                               16000U
+#define AUDIO_MIC_CHANNELS                                0x02
+#define AUDIO_MIC_SMPL_FREQ                               48000U
 #define USBD_AUDIO_MIC_CONFIG_DESC_SIZE                   (116 + AUDIO_MIC_CHANNELS)
 
 

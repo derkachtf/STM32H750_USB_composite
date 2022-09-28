@@ -22,8 +22,8 @@
 //#define AUDIO_MIC_CHANNELS     0x01
 //#define AUDIO_MIC_SMPL_FREQ   48000
 #define HAL_TIMEOUT     1000
-#define MIC_MILISEK_SIZE 4U
-#define MIC_BUFF_SIZE   256 //(MIC_MILISEK_SIZE * AUDIO_MIC_CHANNELS * (AUDIO_MIC_SMPL_FREQ/1000U) * 2U) //256 //(AUDIO_MIC_OUT_PACKET*2) //256 //512
+#define MIC_MILISEK_SIZE 10U
+#define MIC_BUFF_SIZE   (MIC_MILISEK_SIZE * AUDIO_MIC_CHANNELS * (AUDIO_MIC_SMPL_FREQ/1000U) * 2U) //256 //(AUDIO_MIC_OUT_PACKET*2) //256 //512
 #define MIC_GAIN_DEF 8
 
 extern USBD_HandleTypeDef hUsbDevice;
@@ -41,6 +41,7 @@ volatile bool mic_on = false;
 void sph0645_init(void)
 {
   //mic_on = true;
+  //sph0645_Record();
 }
 
 void sph0645_DeInit(void)
@@ -64,6 +65,7 @@ void sph0645_Record(void)
 
 void sph0645_VolumeCtl(int16_t Volume)
 {
+  //printf("sph0645_VolumeCtl(%i)\n",Volume);
   // // reduce resolution from 1/256dB to 1/2dB
 
   // volume /= 128;
@@ -319,6 +321,7 @@ void HAL_I2S_RxHalfCpltCallback(I2S_HandleTypeDef *hi2s)
   if(mic_on) usb_put_buff(&mic_buff[0], &pcm_buff[0], MIC_BUFF_SIZE/2);
   //HAL_GPIO_WritePin(REZEV_I2S_SCKIN_GPIO_Port, REZEV_I2S_SCKIN_Pin,GPIO_PIN_SET); //onLED
   //HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_2);
+  //printf("Hi2s\n");
 }
 
 void HAL_I2S_RxCpltCallback(I2S_HandleTypeDef *hi2s)
@@ -329,6 +332,7 @@ void HAL_I2S_RxCpltCallback(I2S_HandleTypeDef *hi2s)
   //put_buff(&mic_buff[MIC_BUFF_SIZE/2], MIC_BUFF_SIZE/2);
   if(mic_on) usb_put_buff(&mic_buff[MIC_BUFF_SIZE/2], &pcm_buff[MIC_BUFF_SIZE/2], MIC_BUFF_SIZE/2);
   //HAL_GPIO_WritePin(REZEV_I2S_SCKIN_GPIO_Port, REZEV_I2S_SCKIN_Pin,GPIO_PIN_RESET); //onLED
+  //printf("Fi2s\n");
 }
 
 void sph0645_test(I2S_HandleTypeDef *hi2s)

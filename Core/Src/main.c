@@ -127,8 +127,8 @@ int main(void)
 	  if(HAL_GetTick()-tik > 1000)
 	  {
 		  tik = HAL_GetTick();
-		  //HAL_GPIO_TogglePin(MOT1_GPIO_Port, MOT1_Pin);
-      printf("tik=%u\n",tik/1000U);
+		  HAL_GPIO_TogglePin(MOT1_GPIO_Port, MOT1_Pin);
+      //printf("tik=%u\n",tik/1000U);
       //HAL_UART_Transmit_DMA(&huart8, (uint8_t *) "TEST DMA usart8.", 16);
 	  }
     /* USER CODE END WHILE */

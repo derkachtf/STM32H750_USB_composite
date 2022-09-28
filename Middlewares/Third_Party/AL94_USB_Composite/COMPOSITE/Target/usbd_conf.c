@@ -327,7 +327,7 @@ USBD_StatusTypeDef USBD_LL_Init(USBD_HandleTypeDef *pdev)
     HAL_PCDEx_SetTxFiFoInBytes(hpcd_USB_OTG_PTR, (CUSTOM_HID_IN_EP & 0x7F), 64);
 #endif
 #if (USBD_USE_UAC_MIC == 1)
-    HAL_PCDEx_SetTxFiFoInBytes(hpcd_USB_OTG_PTR, (AUDIO_MIC_EP & 0x7F), 128);
+    HAL_PCDEx_SetTxFiFoInBytes(hpcd_USB_OTG_PTR, (AUDIO_MIC_EP & 0x7F), 256);
 #endif
 #if (USBD_USE_UAC_SPKR == 1)
 #endif

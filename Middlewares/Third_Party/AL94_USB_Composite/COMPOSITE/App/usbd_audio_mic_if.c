@@ -21,34 +21,35 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "usbd_audio_mic_if.h"
+#include "sph0645.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
-static int8_t Audio_Init(uint32_t  AudioFreq, uint32_t BitRes, uint32_t ChnlNbr);
-static int8_t Audio_DeInit(uint32_t options);
-static int8_t Audio_Record(void);
-static int8_t Audio_VolumeCtl(int16_t Volume);
-static int8_t Audio_MuteCtl(uint8_t cmd);
-static int8_t Audio_Stop(void);
-static int8_t Audio_Pause(void);
-static int8_t Audio_Resume(void);
-static int8_t Audio_CommandMgr(uint8_t cmd);
+static int8_t AUDIO_MIC_Init(uint32_t  AudioFreq, uint32_t BitRes, uint32_t ChnlNbr);
+static int8_t AUDIO_MIC_DeInit(uint32_t options);
+static int8_t AUDIO_MIC_Record(void);
+static int8_t AUDIO_MIC_VolumeCtl(int16_t Volume);
+static int8_t AUDIO_MIC_MuteCtl(uint8_t cmd);
+static int8_t AUDIO_MIC_Stop(void);
+static int8_t AUDIO_MIC_Pause(void);
+static int8_t AUDIO_MIC_Resume(void);
+static int8_t AUDIO_MIC_CommandMgr(uint8_t cmd);
 
 /* Private variables ---------------------------------------------------------*/
 extern USBD_HandleTypeDef hUsbDeviceFS;
 
 USBD_AUDIO_MIC_ItfTypeDef USBD_AUDIO_MIC_fops_FS = {
-  Audio_Init,
-  Audio_DeInit,
-  Audio_Record,
-  Audio_VolumeCtl,
-  Audio_MuteCtl,
-  Audio_Stop,
-  Audio_Pause,
-  Audio_Resume,
-  Audio_CommandMgr,
+  AUDIO_MIC_Init,
+  AUDIO_MIC_DeInit,
+  AUDIO_MIC_Record,
+  AUDIO_MIC_VolumeCtl,
+  AUDIO_MIC_MuteCtl,
+  AUDIO_MIC_Stop,
+  AUDIO_MIC_Pause,
+  AUDIO_MIC_Resume,
+  AUDIO_MIC_CommandMgr,
 };
 
 /* Private functions ---------------------------------------------------------*/
@@ -74,8 +75,10 @@ const int16_t vol_table[65] =
 * @param  ChnlNbr: number of channel to be configured
 * @retval BSP_ERROR_NONE in case of success, AUDIO_ERROR otherwise
 */
-static int8_t Audio_Init(uint32_t  AudioFreq, uint32_t BitRes, uint32_t ChnlNbr)
+static int8_t AUDIO_MIC_Init(uint32_t  AudioFreq, uint32_t BitRes, uint32_t ChnlNbr)
 {
+  printf("AUDIO_MIC_Init AudioFreq=%u, BitRes=%u, ChnlNbr=%u\n", AudioFreq, BitRes, ChnlNbr);
+  sph0645_init();
   return USBD_OK;
 }
 
@@ -84,8 +87,10 @@ static int8_t Audio_Init(uint32_t  AudioFreq, uint32_t BitRes, uint32_t ChnlNbr)
 * @param  options: Reserved for future use
 * @retval BSP_ERROR_NONE in case of success, AUDIO_ERROR otherwise
 */
-static int8_t Audio_DeInit(uint32_t options)
+static int8_t AUDIO_MIC_DeInit(uint32_t options)
 {
+  printf("AUDIO_MIC_DeInit\n");
+    sph0645_DeInit();
 	return USBD_OK;
 }
 
@@ -93,8 +98,10 @@ static int8_t Audio_DeInit(uint32_t options)
 * @brief  Start audio recording engine
 * @retval BSP_ERROR_NONE in case of success, AUDIO_ERROR otherwise
 */
-static int8_t Audio_Record(void)
+static int8_t AUDIO_MIC_Record(void)
 {
+  printf("AUDIO_MIC_Record\n");
+  sph0645_Record();
 	return USBD_OK;
 }
 
@@ -103,8 +110,10 @@ static int8_t Audio_Record(void)
 * @param  vol: Volume level
 * @retval BSP_ERROR_NONE in case of success, AUDIO_ERROR otherwise
 */
-static int8_t Audio_VolumeCtl(int16_t Volume)
+static int8_t AUDIO_MIC_VolumeCtl(int16_t Volume)
 {
+  printf("AUDIO_MIC_VolumeCtl=%i\n",Volume);
+  sph0645_VolumeCtl(Volume);
   /* Call low layer volume setting function */
   uint32_t j = 0;
 
@@ -122,8 +131,10 @@ static int8_t Audio_VolumeCtl(int16_t Volume)
 * @param  cmd: Command opcode
 * @retval BSP_ERROR_NONE in case of success, AUDIO_ERROR otherwise
 */
-static int8_t Audio_MuteCtl(uint8_t cmd)
+static int8_t AUDIO_MIC_MuteCtl(uint8_t cmd)
 {
+  sph0645_MuteCtl(cmd);
+  printf("AUDIO_MIC_MuteCtl\n");
   return USBD_OK;
 }
 
@@ -133,8 +144,10 @@ static int8_t Audio_MuteCtl(uint8_t cmd)
 * @param  none
 * @retval BSP_ERROR_NONE in case of success, AUDIO_ERROR otherwise
 */
-static int8_t Audio_Stop(void)
+static int8_t AUDIO_MIC_Stop(void)
 {
+  printf("AUDIO_MIC_Stop\n");
+  sph0645_Stop();
   return USBD_OK;
 }
 
@@ -144,8 +157,10 @@ static int8_t Audio_Stop(void)
 * @retval BSP_ERROR_NONE in case of success, AUDIO_ERROR otherwise
 */
 
-static int8_t Audio_Pause(void)
+static int8_t AUDIO_MIC_Pause(void)
 {
+  printf("AUDIO_MIC_Pause\n");
+  sph0645_Pause();
   return USBD_OK;
 }
 
@@ -155,8 +170,10 @@ static int8_t Audio_Pause(void)
 * @param  none
 * @retval BSP_ERROR_NONE in case of success, AUDIO_ERROR otherwise
 */
-static int8_t Audio_Resume(void)
+static int8_t AUDIO_MIC_Resume(void)
 {
+  sph0645_Resume();
+  printf("AUDIO_MIC_Resume\n");
   return USBD_OK;
 }
 
@@ -166,8 +183,10 @@ static int8_t Audio_Resume(void)
 * @retval BSP_ERROR_NONE in case of success, AUDIO_ERROR otherwise
 */
 
-static int8_t Audio_CommandMgr(uint8_t cmd)
+static int8_t AUDIO_MIC_CommandMgr(uint8_t cmd)
 {
+  sph0645_CommandMgr(cmd);
+  printf("AUDIO_MIC_CommandMgr\n");
   return USBD_OK;
 }
 

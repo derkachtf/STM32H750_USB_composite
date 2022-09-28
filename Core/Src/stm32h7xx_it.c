@@ -62,6 +62,7 @@ extern QSPI_HandleTypeDef hqspi;
 extern DMA_HandleTypeDef hdma_uart8_tx;
 extern DMA_HandleTypeDef hdma_dac1_ch2;
 extern UART_HandleTypeDef huart8;
+extern DMA_HandleTypeDef hdma_spi2_rx;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -284,6 +285,20 @@ void MDMA_IRQHandler(void)
   /* USER CODE BEGIN MDMA_IRQn 1 */
 
   /* USER CODE END MDMA_IRQn 1 */
+}
+
+/**
+  * @brief This function handles DMA2 stream1 global interrupt.
+  */
+void DMA2_Stream1_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA2_Stream1_IRQn 0 */
+
+  /* USER CODE END DMA2_Stream1_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_spi2_rx);
+  /* USER CODE BEGIN DMA2_Stream1_IRQn 1 */
+
+  /* USER CODE END DMA2_Stream1_IRQn 1 */
 }
 
 /* USER CODE END 1 */
