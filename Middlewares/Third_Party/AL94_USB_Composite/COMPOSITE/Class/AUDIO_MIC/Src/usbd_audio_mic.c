@@ -385,6 +385,9 @@ __ALIGN_BEGIN static uint8_t USBD_AUDIO_MIC_DeviceQualifierDesc[USB_LEN_DEV_QUAL
   */
 static uint8_t USBD_AUDIO_MIC_Init(USBD_HandleTypeDef *pdev, uint8_t cfgidx)
 {
+
+  printf("AUDIO_MIC_EP=%x\n", AUDIO_MIC_EP);
+  
   if (haudioInstance.state != STATE_USB_WAITING_FOR_INIT)
   {
     return USBD_FAIL;

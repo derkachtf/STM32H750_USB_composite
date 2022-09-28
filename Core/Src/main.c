@@ -25,6 +25,8 @@
 /* USER CODE BEGIN Includes */
 #include "usart.h"
 #include "debug_helper.h"
+#include "usbd_hid_keyboard.h"
+#include "usbd_hid_mouse.h"
 
 /* USER CODE END Includes */
 
@@ -54,7 +56,12 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+extern USBD_HandleTypeDef hUsbDevice;
+//#define KEY_A (0x0004U | PAGE_KEYBOARD) // Keyboard a and A
+uint8_t keybaord_report[8]={0x00,0x00,0x04,0x05,0x06,0x07,0x00,0x00};
+uint8_t keybaord_empty_report[8]={0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
+//buttons ; x ; y ;
+int8_t mouse_report[4]={0x00, 10, 10, 0x00};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -117,10 +124,13 @@ int main(void)
   printf("STM32H750 revID =0x%04lX\n",rev_id);
   //HAL_UART_Transmit(&huart8, (uint8_t *) "TEST HAL usart8.", 16, 10);
   MX_USB_DEVICE_Init();
+  HAL_Delay(1000);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  uint32_t st =1;
+  uint8_t ret;
   uint32_t tik = HAL_GetTick();
   while (1)
   {
@@ -130,6 +140,14 @@ int main(void)
 		  HAL_GPIO_TogglePin(MOT1_GPIO_Port, MOT1_Pin);
       //printf("tik=%u\n",tik/1000U);
       //HAL_UART_Transmit_DMA(&huart8, (uint8_t *) "TEST DMA usart8.", 16);
+      st++;
+      if(st&1U)
+        ret=USBD_HID_Keybaord_SendReport(&hUsbDevice, keybaord_empty_report,8);
+      else
+        ret=USBD_HID_Keybaord_SendReport(&hUsbDevice, keybaord_report,8);
+      printf("ret=%u\n",ret);  
+
+      USBD_HID_Mouse_SendReport(&hUsbDevice, mouse_report, 4);
 	  }
     /* USER CODE END WHILE */
 

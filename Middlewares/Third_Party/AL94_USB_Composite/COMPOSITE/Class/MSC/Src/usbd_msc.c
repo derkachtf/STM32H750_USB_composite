@@ -295,6 +295,10 @@ __ALIGN_BEGIN static uint8_t USBD_MSC_DeviceQualifierDesc[USB_LEN_DEV_QUALIFIER_
 uint8_t USBD_MSC_Init(USBD_HandleTypeDef *pdev, uint8_t cfgidx)
 {
   UNUSED(cfgidx);
+
+  printf("MSC_OUT_EP=%x\n", MSC_OUT_EP);
+  printf("MSC_IN_EP=%x\n", MSC_IN_EP);
+
   USBD_MSC_BOT_HandleTypeDef *hmsc;
 
   hmsc = &USBD_MSC_Instance;

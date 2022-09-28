@@ -38,7 +38,6 @@ static int8_t AUDIO_MIC_Resume(void);
 static int8_t AUDIO_MIC_CommandMgr(uint8_t cmd);
 
 /* Private variables ---------------------------------------------------------*/
-extern USBD_HandleTypeDef hUsbDeviceFS;
 
 USBD_AUDIO_MIC_ItfTypeDef USBD_AUDIO_MIC_fops_FS = {
   AUDIO_MIC_Init,

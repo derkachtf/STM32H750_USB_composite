@@ -360,6 +360,10 @@ __ALIGN_BEGIN static uint8_t USBD_CUSTOM_HID_DeviceQualifierDesc[USB_LEN_DEV_QUA
 static uint8_t USBD_CUSTOM_HID_Init(USBD_HandleTypeDef *pdev, uint8_t cfgidx)
 {
   UNUSED(cfgidx);
+
+  printf("CUSTOM_HID_IN_EP=%x\n", CUSTOM_HID_IN_EP);
+  printf("CUSTOM_HID_OUT_EP=%x\n", CUSTOM_HID_OUT_EP);
+  
   USBD_CUSTOM_HID_HandleTypeDef *hhid;
 
   hhid = &CUSTOM_HID_Instance;

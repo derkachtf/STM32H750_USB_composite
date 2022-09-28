@@ -375,7 +375,9 @@ __ALIGN_BEGIN static uint8_t HID_KEYBOARD_ReportDesc[HID_KEYBOARD_REPORT_DESC_SI
 static uint8_t USBD_HID_Init(USBD_HandleTypeDef *pdev, uint8_t cfgidx)
 {
   UNUSED(cfgidx);
-
+  
+  printf("HID_KEYBOARD_IN_EP=%x\n", HID_KEYBOARD_IN_EP);
+  
   USBD_HID_Keyboard_HandleTypeDef *hhid;
 
   hhid = &USBD_HID_KBD_Instace;
@@ -649,8 +651,10 @@ uint8_t USBD_HID_Keybaord_SendReport(USBD_HandleTypeDef *pdev, uint8_t *report, 
 
   if (pdev->dev_state == USBD_STATE_CONFIGURED)
   {
+    printf("k1\n");
     if (hhid->state == KEYBOARD_HID_IDLE)
     {
+      printf("k2\n");
       hhid->state = KEYBOARD_HID_BUSY;
       (void)USBD_LL_Transmit(pdev, HID_KEYBOARD_IN_EP, report, len);
     }

@@ -344,6 +344,9 @@ __ALIGN_BEGIN static uint8_t USBD_AUDIO_SPKR_DeviceQualifierDesc[USB_LEN_DEV_QUA
 static uint8_t USBD_AUDIO_SPKR_Init(USBD_HandleTypeDef *pdev, uint8_t cfgidx)
 {
   UNUSED(cfgidx);
+
+  printf("AUDIO_SPKR_EP=%x\n", AUDIO_SPKR_EP);
+
   USBD_AUDIO_SPKR_HandleTypeDef *haudio;
 
   /* Allocate Audio structure */

@@ -327,6 +327,8 @@ __ALIGN_BEGIN static uint8_t HID_MOUSE_ReportDesc[HID_MOUSE_REPORT_DESC_SIZE] __
 static uint8_t USBD_HID_Init(USBD_HandleTypeDef *pdev, uint8_t cfgidx)
 {
   UNUSED(cfgidx);
+  
+  printf("HID_MOUSE_IN_EP=%x\n", HID_MOUSE_IN_EP);
 
   USBD_HID_HandleTypeDef *hhid;
 
